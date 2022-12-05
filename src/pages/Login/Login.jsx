@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useAuthDispatch } from '../../context/auth/auth-context';
+import https from '../../services/https';
+// import { useAuthDispatch } from '../../context/auth/auth-context';
 import './style.css';
 
 const fetchToken = async ({ username, password }) => {
-  const response = await axios.post('http://localhost:3001/login', {
+  const response = https.post('login', {
     username,
     password,
   });
@@ -13,7 +13,7 @@ const fetchToken = async ({ username, password }) => {
 };
 
 const fetchUserData = async (token) => {
-  const response = await axios.get('http://localhost:3001/users/me', {
+  const response = https.get('users/me', {
     headers: {
       authorization: token,
     },
