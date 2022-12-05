@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import https from '../../services/https';
-// import { useAuthDispatch } from '../../context/auth/auth-context';
+import { useAuthDispatch } from '../../context/auth/auth-context';
 import './style.css';
+import { loginError, loginSuccess } from '../../context/auth/reducer';
 
 const fetchToken = async ({ username, password }) => {
   const response = https.post('login', {
@@ -30,6 +31,7 @@ export default function Login() {
 
   const [token, setToken] = useState(null);
   const [failed, setFailed] = useState(false);
+  const dispatch = useAuthDispatch();
 
   const handleChange = (e) => {
     setFailed(false);
@@ -48,6 +50,7 @@ export default function Login() {
         setToken(data);
       } else {
         setFailed(true);
+        dispatch(loginError);
       }
     });
   };
@@ -56,13 +59,18 @@ export default function Login() {
     if (token) {
       fetchUserData(token).then(({ success, data }) => {
         if (success) {
-          console.log(data);
+          dispatch(
+            loginSuccess({
+              ...data,
+              token,
+            }),
+          );
         } else {
           setFailed(true);
         }
       });
     }
-  }, [token]);
+  }, [dispatch, token]);
 
   return (
     <div className="login">
