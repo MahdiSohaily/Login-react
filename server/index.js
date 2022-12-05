@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
 const port = 3001;
 const token = '7learn';
 
@@ -11,7 +12,7 @@ app.use(bodyParser.json());
 
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-  if ('admin' === username && 'admin' === password) {
+  if (username === 'admin' && password === 'admin') {
     res.send({
       success: true,
       data: token,
@@ -45,5 +46,5 @@ app.get('/users/me', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  throw new Error(`Example app listening at http://localhost:${port}`);
 });
