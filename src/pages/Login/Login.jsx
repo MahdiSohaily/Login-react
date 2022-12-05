@@ -66,6 +66,7 @@ export default function Login() {
           );
         } else {
           setFailed(true);
+          dispatch(loginError);
         }
       });
     }
