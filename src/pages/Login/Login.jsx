@@ -1,27 +1,8 @@
 import { useState, useEffect } from 'react';
-import https from '../../services/https';
 import { useAuthDispatch } from '../../context/auth/auth-context';
-import './style.css';
 import { loginError, loginSuccess } from '../../context/auth/reducer';
-
-const fetchToken = async ({ username, password }) => {
-  const response = https.post('login', {
-    username,
-    password,
-  });
-
-  return response;
-};
-
-const fetchUserData = async (token) => {
-  const response = https.get('users/me', {
-    headers: {
-      authorization: token,
-    },
-  });
-
-  return response;
-};
+import { fetchToken, fetchUserData } from './actions';
+import './style.css';
 
 export default function Login() {
   const [input, setInput] = useState({
