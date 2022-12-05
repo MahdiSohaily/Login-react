@@ -1,5 +1,5 @@
 /* eslint-disable comma-dangle */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { useAuthDispatch, useAuthState } from '../../context/auth/auth-context';
 import {
   loginError,
@@ -42,6 +42,12 @@ export default function Login() {
       }
     });
   };
+
+  useLayoutEffect(() => {
+    if (token) {
+      console.log('hi');
+    }
+  }, []);
 
   useEffect(() => {
     if (token) {
