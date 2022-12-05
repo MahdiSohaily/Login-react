@@ -51,3 +51,14 @@ export default function reducer(state, action) {
       throw new Error('Action type not supported');
   }
 }
+
+/**
+ * This is a action creator function for dispatching
+ * the requesting for the login action in reducer
+ * @returns an object contains the type of action
+ */
+export const loginRequest = () => ({
+  type: actionTypes.LOGIN_REQUEST,
+});
+
+
