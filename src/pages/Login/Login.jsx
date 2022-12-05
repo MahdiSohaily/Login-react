@@ -6,7 +6,7 @@ import {
   loginRequest,
   loginSuccess,
 } from '../../context/auth/reducer';
-import { fetchToken, fetchUserData } from './actions';
+import { fetchToken, fetchUserData, getCookie, setCookie } from './actions';
 import './style.css';
 
 export default function Login() {
@@ -44,8 +44,9 @@ export default function Login() {
   };
 
   useLayoutEffect(() => {
+    const token = getCookie('auth');
     if (token) {
-      console.log('hi');
+      setToken(token);
     }
   }, []);
 
@@ -53,6 +54,7 @@ export default function Login() {
     if (token) {
       fetchUserData(token).then(({ success, data }) => {
         if (success) {
+          setCookie('auth', token, 7);
           dispatch(
             loginSuccess({
               ...data,
