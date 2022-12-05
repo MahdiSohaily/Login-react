@@ -19,15 +19,15 @@ export const fetchUserData = async (token) => {
   return response;
 };
 
-export function setCookie(cname, cValue, exDays) {
+export function setCookie(cName, cValue, exDays) {
   const d = new Date();
   d.setTime(d.getTime() + exDays * 24 * 60 * 60 * 1000);
   const expires = `expires=${d.toUTCString()}`;
-  document.cookie = `${cname}=${cValue};${expires};path=/`;
+  document.cookie = `${cName}=${cValue};${expires};path=/`;
 }
 
-export function getCookie(cname) {
-  const name = `${cname}=`;
+export function getCookie(cName) {
+  const name = `${cName}=`;
   const decodedCookie = decodeURIComponent(document.cookie);
   const ca = decodedCookie.split(';');
   for (let i = 0; i < ca.length; i += 1) {
