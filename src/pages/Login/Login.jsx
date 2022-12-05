@@ -6,7 +6,9 @@ import {
   loginRequest,
   loginSuccess,
 } from '../../context/auth/reducer';
-import { fetchToken, fetchUserData, getCookie, setCookie } from './actions';
+import {
+  fetchToken, fetchUserData, getCookie, setCookie
+} from './actions';
 import './style.css';
 
 export default function Login() {
@@ -46,9 +48,10 @@ export default function Login() {
   useLayoutEffect(() => {
     const token = getCookie('auth');
     if (token) {
+      dispatch(loginRequest());
       setToken(token);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (token) {
@@ -69,36 +72,42 @@ export default function Login() {
   }, [dispatch, token]);
 
   return (
-    <div className="login">
-      <h1>Login</h1>
-      {failed && (
-        <p className="error">* Either username or password are wrong.</p>
+    <>
+      {loading ? (
+        <p>Loading</p>
+      ) : (
+        <div className="login">
+          <h1>Login</h1>
+          {failed && (
+            <p className="error">* Either username or password are wrong.</p>
+          )}
+          <form method="post" onSubmit={handleLogin}>
+            <input
+              name="username"
+              type="text"
+              placeholder="Username"
+              required="required"
+              value={input.username}
+              onChange={handleChange}
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              required="required"
+              value={input.password}
+              onChange={handleChange}
+            />
+            <button
+              type="submit"
+              className="btn btn-primary btn-block btn-large"
+              disabled={loading}
+            >
+              Let me in.
+            </button>
+          </form>
+        </div>
       )}
-      <form method="post" onSubmit={handleLogin}>
-        <input
-          name="username"
-          type="text"
-          placeholder="Username"
-          required="required"
-          value={input.username}
-          onChange={handleChange}
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          required="required"
-          value={input.password}
-          onChange={handleChange}
-        />
-        <button
-          type="submit"
-          className="btn btn-primary btn-block btn-large"
-          disabled={loading}
-        >
-          Let me in.
-        </button>
-      </form>
-    </div>
+    </>
   );
 }
