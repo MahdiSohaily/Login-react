@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useAuthDispatch } from '../../context/auth/auth-context';
 import './style.css';
 
 const fetchToken = async ({ username, password }) => {
