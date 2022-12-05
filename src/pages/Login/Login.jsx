@@ -9,14 +9,7 @@ const fetchToken = async ({ username, password }) => {
     password,
   });
 
-  response
-    .then((response) => response.data)
-    .catch((error) => {
-      throw new Error(
-        `Something went wrong while fetching data - (check the provided URL)${
-          error}`,
-      );
-    });
+  return response;
 };
 
 const fetchUserData = async (token) => {
@@ -26,7 +19,7 @@ const fetchUserData = async (token) => {
     },
   });
 
-  return response.data;
+  return response;
 };
 
 export default function Login() {
@@ -36,6 +29,7 @@ export default function Login() {
   });
 
   const [token, setToken] = useState(null);
+  const [failed, setFailed] = useState(false);
 
   const handleChange = (e) => {
     const { name } = e.target;
@@ -48,10 +42,11 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    fetchToken(input).then((response) => {
-      const { data, success } = response;
+    fetchToken(input).then(({ data, success }) => {
       if (success) {
         setToken(data);
+      } else {
+        setFailed(true);
       }
     });
   };
@@ -65,6 +60,9 @@ export default function Login() {
   return (
     <div className="login">
       <h1>Login</h1>
+      {failed && (
+        <p className="error">* Either username or password are wrong.</p>
+      )}
       <form method="post" onSubmit={handleLogin}>
         <input
           name="username"
