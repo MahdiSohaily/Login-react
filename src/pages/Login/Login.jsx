@@ -1,11 +1,21 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './style.css';
 
 const fetchToken = async ({ username, password }) => {
   const response = await axios.post('http://localhost:3001/login', {
     username,
     password,
+  });
+
+  return response.data;
+};
+
+const fetchUserData = async (token) => {
+  const response = await axios.get('http://localhost:3001/users/me', {
+    headers: {
+      authorization: token,
+    },
   });
 
   return response.data;
@@ -37,6 +47,12 @@ export default function Login() {
       }
     });
   };
+
+  useEffect(() => {
+    if (token) {
+      fetchUserData(token).then((response) => console.log(response));
+    }
+  }, [token]);
 
   return (
     <div className="login">
