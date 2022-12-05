@@ -54,11 +54,21 @@ export default function reducer(state, action) {
 
 /**
  * This is a action creator function for dispatching
- * the requesting for the login action in reducer
+ * the request for the login action in reducer
  * @returns an object contains the type of action
  */
 export const loginRequest = () => ({
   type: actionTypes.LOGIN_REQUEST,
 });
 
-
+/**
+ * This is a action creator function for dispatching
+ * the request for the successful login action
+ * @param {object} payload is the logged in user information
+ * @returns an object contains the action type and the
+ * user information
+ */
+export const loginSuccess = (payload) => ({
+  type: actionTypes.LOGIN_SUCCESS,
+  payload,
+});
