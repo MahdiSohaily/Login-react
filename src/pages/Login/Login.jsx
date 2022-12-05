@@ -1,6 +1,11 @@
+/* eslint-disable comma-dangle */
 import { useState, useEffect } from 'react';
-import { useAuthDispatch } from '../../context/auth/auth-context';
-import { loginError, loginSuccess } from '../../context/auth/reducer';
+import { useAuthDispatch, useAuthState } from '../../context/auth/auth-context';
+import {
+  loginError,
+  loginRequest,
+  loginSuccess,
+} from '../../context/auth/reducer';
 import { fetchToken, fetchUserData } from './actions';
 import './style.css';
 
@@ -13,6 +18,7 @@ export default function Login() {
   const [token, setToken] = useState(null);
   const [failed, setFailed] = useState(false);
   const dispatch = useAuthDispatch();
+  const { loading } = useAuthState();
 
   const handleChange = (e) => {
     setFailed(false);
@@ -26,6 +32,7 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    dispatch(loginRequest());
     fetchToken(input).then(({ data, success }) => {
       if (success) {
         setToken(data);
@@ -44,7 +51,7 @@ export default function Login() {
             loginSuccess({
               ...data,
               token,
-            }),
+            })
           );
         } else {
           setFailed(true);
@@ -76,8 +83,14 @@ export default function Login() {
           value={input.password}
           onChange={handleChange}
         />
-        <button type="submit" className="btn btn-primary btn-block btn-large">
+        <button
+          type="submit"
+          className="btn btn-primary btn-block btn-large"
+          disabled={loading}
+        >
           Let me in.
+          {' '}
+          {loading && <p>loading</p>}
         </button>
       </form>
     </div>
