@@ -89,8 +89,6 @@ export default function Login() {
           disabled={loading}
         >
           Let me in.
-          {' '}
-          {loading && <p>loading</p>}
         </button>
       </form>
     </div>
