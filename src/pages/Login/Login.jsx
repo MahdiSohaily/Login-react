@@ -8,7 +8,7 @@ const fetchToken = async ({ username, password }) => {
     password,
   });
 
-  console.log(response.data);
+  return response.data;
 };
 
 export default function Login() {
@@ -16,6 +16,8 @@ export default function Login() {
     username: '',
     password: '',
   });
+
+  const [token, setToken] = useState(null);
 
   const handleChange = (e) => {
     const { name } = e.target;
@@ -28,7 +30,12 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    fetchToken(input);
+    fetchToken(input).then((response) => {
+      const { data, success } = response;
+      if (success) {
+        setToken(data);
+      }
+    });
   };
 
   return (
