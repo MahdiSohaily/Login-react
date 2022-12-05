@@ -32,6 +32,7 @@ export default function Login() {
   const [failed, setFailed] = useState(false);
 
   const handleChange = (e) => {
+    setFailed(false);
     const { name } = e.target;
     const { value } = e.target;
     setInput({
@@ -53,7 +54,13 @@ export default function Login() {
 
   useEffect(() => {
     if (token) {
-      fetchUserData(token).then((response) => console.log(response));
+      fetchUserData(token).then(({ success, data }) => {
+        if (success) {
+          console.log(data);
+        } else {
+          setFailed(true);
+        }
+      });
     }
   }, [token]);
 
