@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import React, { useContext } from 'react';
+import { createContext, useContext, useReducer } from 'react';
+import reducer, { initialState } from './reducer';
 
-const AuthStateContext = React.createContext();
-const AuthDespatcherContext = React.createContext();
+const AuthStateContext = createContext();
+const AuthDespatcherContext = createContext();
 
 export function useAuthState() {
   const context = useContext(AuthStateContext);
