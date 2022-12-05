@@ -9,7 +9,14 @@ const fetchToken = async ({ username, password }) => {
     password,
   });
 
-  return response.data;
+  response
+    .then((response) => response.data)
+    .catch((error) => {
+      throw new Error(
+        `Something went wrong while fetching data - (check the provided URL)${
+          error}`,
+      );
+    });
 };
 
 const fetchUserData = async (token) => {
