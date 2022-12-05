@@ -1,50 +1,49 @@
-import express from 'express';
-import { json } from 'body-parser';
-import cors from 'cors';
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const port = 3001
+const token = '7learn'
 
-const port = 3001;
-const token = '7learn';
+const app = express()
 
-const app = express();
-
-app.use(cors());
-app.use(json());
+app.use(cors())
+app.use(bodyParser.json())
 
 app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  if (username === 'admin' && password === 'admin') {
+    const { username, password } = req.body
+    if ('admin' === username && 'admin' === password) {
+        res.send({
+            success: true,
+            data: token
+        })
+    }
     res.send({
-      success: true,
-      data: token,
-    });
-  }
-  res.send({
-    success: false,
-    error: 'username or password is wrong!',
-  });
-});
+        success: false,
+        error: 'username or password is wrong!'
+    })
+})
 
 app.get('/users/me', (req, res) => {
-  const { authorization } = req.headers;
+    const { authorization } = req.headers
 
-  if (token === authorization) {
+    if (token === authorization) {
+        res.send({
+            success: true,
+            data: {
+                id: 1,
+                username: 'admin',
+                email: 'info@7larn.com',
+                name: 'admin'
+            }
+        })
+    }
+
     res.send({
-      success: true,
-      data: {
-        id: 1,
-        username: 'admin',
-        email: 'info@7larn.com',
-        name: 'admin',
-      },
-    });
-  }
-
-  res.send({
-    success: false,
-    error: 'token is not valid',
-  });
-});
+        success: false,
+        error: 'token is not valid'
+    })
+})
 
 app.listen(port, () => {
-  throw new Error(`Example app listening at http://localhost:${port}`);
-});
+    console.log(`Example app listening at http://localhost:${port}`)
+})
