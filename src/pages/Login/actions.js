@@ -32,6 +32,15 @@ export const fetchUserData = async (token) => {
   return response;
 };
 
+/**
+ * This is a function to create a cookie for storing
+ * the token iin user side for next time automatic
+ * logging in operation.
+ * @param {string} cName is the name of cookie
+ * @param {string} cValue is the value of cookie
+ * @param {number} exDays is the number of days that
+ * cookie is valid for.
+ */
 export function setCookie(cName, cValue, exDays) {
   const d = new Date();
   d.setTime(d.getTime() + exDays * 24 * 60 * 60 * 1000);
@@ -39,6 +48,13 @@ export function setCookie(cName, cValue, exDays) {
   document.cookie = `${cName}=${cValue};${expires};path=/`;
 }
 
+/**
+ * This is a function to get an specific cookie value.
+ * @param {string} cName is the name of the cookie
+ * we are looking for it's value.
+ * @returns a string indicating to the value of the
+ * specified cookie name as a argument.
+ */
 export function getCookie(cName) {
   const name = `${cName}=`;
   const decodedCookie = decodeURIComponent(document.cookie);
